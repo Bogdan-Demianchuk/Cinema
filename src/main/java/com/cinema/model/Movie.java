@@ -9,20 +9,11 @@ import javax.persistence.Id;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
     private String title;
     private String description;
 
     public Movie() {
-    }
-
-    @Override
-    public String toString() {
-        return "Movie{"
-                + "id=" + id
-                + ", title='" + title + '\''
-                + ", description='" + description + '\''
-                + '}';
     }
 
     public Long getId() {
@@ -47,5 +38,14 @@ public class Movie {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{"
+                + "id=" + id
+                + ", title='" + title + '\''
+                + ", description='" + description + '\''
+                + '}';
     }
 }
