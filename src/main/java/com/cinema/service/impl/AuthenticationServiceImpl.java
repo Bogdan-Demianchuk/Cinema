@@ -21,7 +21,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .equals(userFromDb.getPassword())) {
             return userFromDb;
         }
-        throw new AuthenticationException("Incorrect login or password");
+        throw new AuthenticationException("Incorrect password");
     }
 
     @Override
@@ -30,7 +30,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         byte[] salt = HashUtil.getSalt();
         user.setPassword(HashUtil.hashPassword(user.getPassword(), salt));
         user.setSalt(salt);
-        userService.add(user);
-        return null;
+        return userService.add(user);
     }
 }
