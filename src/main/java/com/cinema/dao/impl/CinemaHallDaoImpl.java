@@ -6,9 +6,9 @@ import com.cinema.lib.Dao;
 import com.cinema.model.CinemaHall;
 import com.cinema.util.HibernateUtil;
 import java.util.List;
-import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 @Dao
 public class CinemaHallDaoImpl implements CinemaHallDao {
@@ -39,12 +39,11 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     @Override
     public List<CinemaHall> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            CriteriaQuery<CinemaHall> criteriaQuery = session
-                    .getCriteriaBuilder().createQuery(CinemaHall.class);
-            criteriaQuery.from(CinemaHall.class);
-            return session.createQuery(criteriaQuery).getResultList();
+            Query query = session.createQuery("from CinemaHall");
+            List<CinemaHall> allCinemaHalls = query.list();
+            return allCinemaHalls;
         } catch (Exception e) {
-            throw new DataProcessingException("Can`t get All cinemahall from db", e);
+            throw new DataProcessingException("Can`t get All cinema hall from db", e);
         }
     }
 }
