@@ -5,11 +5,11 @@ import com.cinema.exeption.DataProcessingException;
 import com.cinema.lib.Dao;
 import com.cinema.model.MovieSession;
 import com.cinema.util.HibernateUtil;
+import java.time.LocalDate;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import java.time.LocalDate;
-import java.util.List;
 
 @Dao
 public class MovieSessionDaoImpl implements MovieSessionDao {
@@ -21,9 +21,8 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            Long movieSessionId = (Long) session.save(movieSession);
+            session.save(movieSession);
             transaction.commit();
-            movieSession.setId(movieSessionId);
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {
@@ -43,15 +42,10 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             Query query = session.createQuery("from MovieSession");
             List<MovieSession> allMovieSessions = query.list();
             return allMovieSessions;
-//            CriteriaQuery<MovieSession> criteriaQuery = session
-//                    .getCriteriaBuilder().createQuery(MovieSession.class);
-//            criteriaQuery.from(MovieSession.class);
-//            return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can`t get All movie sessions from db", e);
         }
     }
-
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
