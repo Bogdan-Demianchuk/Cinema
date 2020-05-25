@@ -43,6 +43,6 @@ public class Main {
             User user = new User("email" + i + "@com", "*" + i);
             authenticationService.register(user.getEmail(), user.getPassword());
         }
-        System.out.println(authenticationService.login("email2@com", "*2"));
+        System.out.println("Get 3rd user -" + authenticationService.login("email2@com", "*2"));
     }
 }
