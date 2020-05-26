@@ -23,7 +23,6 @@ public class ShoppingCart {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Ticket> tickets;
 
-
     public Long getId() {
         return id;
     }
@@ -50,10 +49,7 @@ public class ShoppingCart {
 
     @Override
     public String toString() {
-        return "ShoppingCart{" +
-                "id=" + id +
-                ", tickets=" + tickets +
-                ", user=" + user +
-                '}';
+        return "ShoppingCart{" + "id=" + id
+                + ", tickets=" + tickets + ", user=" + user + '}';
     }
 }

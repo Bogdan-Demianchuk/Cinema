@@ -1,6 +1,5 @@
 package com.cinema.service.impl;
 
-import com.cinema.dao.MovieSessionDao;
 import com.cinema.dao.ShoppingCartDao;
 import com.cinema.dao.TicketDao;
 import com.cinema.lib.Inject;

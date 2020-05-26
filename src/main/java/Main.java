@@ -13,12 +13,11 @@ import com.cinema.service.MovieSessionService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import com.cinema.util.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 public class Main {
     private static Injector injector = Injector.getInstance("com.cinema");
@@ -86,12 +85,6 @@ public class Main {
     }
 
     private static void checkTicket() {
-        ShoppingCartService shoppingCartService = (ShoppingCartService)
-                injector.getInstance(ShoppingCartService.class);
-        MovieSessionService movieSessionService = (MovieSessionService)
-                injector.getInstance(MovieSessionService.class);
-        UserService userService = (UserService)
-                injector.getInstance(UserService.class);
         MovieSession movieSession = new MovieSession();
         CinemaHallService cinemaHallService = (CinemaHallService)
                 injector.getInstance(CinemaHallService.class);
@@ -100,7 +93,13 @@ public class Main {
         Movie movie = movieService.getAll().get(0);
         movieSession.setMovie(movie);
         movieSession.setShowTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(14, 30)));
+        MovieSessionService movieSessionService = (MovieSessionService)
+                injector.getInstance(MovieSessionService.class);
         movieSessionService.add(movieSession);
+        ShoppingCartService shoppingCartService = (ShoppingCartService)
+                injector.getInstance(ShoppingCartService.class);
+        UserService userService = (UserService)
+                injector.getInstance(UserService.class);
         shoppingCartService.addSession(movieSession,
                 userService.findByEmail("email2@com").get());
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
