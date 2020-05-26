@@ -1,36 +1,32 @@
 package com.cinema.dao.impl;
 
-import com.cinema.dao.MovieDao;
+import com.cinema.dao.UserDao;
 import com.cinema.exeption.DataProcessingException;
 import com.cinema.lib.Dao;
-import com.cinema.model.Movie;
+import com.cinema.model.User;
 import com.cinema.util.HibernateUtil;
-import java.util.List;
-import org.apache.log4j.Logger;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 @Dao
-public class MovieDaoImpl implements MovieDao {
-    private static final Logger LOGGER = Logger.getLogger(MovieDaoImpl.class);
-
+public class UserDaoImpl implements UserDao {
     @Override
-    public Movie add(Movie movie) {
+    public User add(User user) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.save(movie);
+            session.save(user);
             transaction.commit();
-            return movie;
+            return user;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            LOGGER.error("Can`t insert Movie with title '" + movie.getTitle() + "' to db");
-            throw new DataProcessingException("Can`t insert Movie to db", e);
+            throw new DataProcessingException("Can`t insert user to db", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,14 +35,15 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public List<Movie> getAll() {
+    public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery("from Movie");
-            List<Movie> allMovies = query.list();
-            return allMovies;
+            Query query = session
+                    .createQuery("from User where email = :email");
+            query.setParameter("email", email);
+            return query.uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Can`t get All movie ", e);
+            throw new DataProcessingException("Can't get "
+                    + "user by the email from db", e);
         }
     }
 }
-
