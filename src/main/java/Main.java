@@ -4,18 +4,21 @@ import com.cinema.lib.Injector;
 import com.cinema.model.CinemaHall;
 import com.cinema.model.Movie;
 import com.cinema.model.MovieSession;
+import com.cinema.model.Order;
 import com.cinema.model.Ticket;
 import com.cinema.model.User;
 import com.cinema.service.AuthenticationService;
 import com.cinema.service.CinemaHallService;
 import com.cinema.service.MovieService;
 import com.cinema.service.MovieSessionService;
+import com.cinema.service.OrderService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import com.cinema.util.HibernateUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -29,6 +32,7 @@ public class Main {
         checkMovieSession();
         checkShoppingCartService();
         checkTicket();
+        checkOrder();
     }
 
     private static void checkUser() throws AuthenticationException {
@@ -110,5 +114,21 @@ public class Main {
             throw new DataProcessingException("Can't get "
                     + "avalibal tickets from db", e);
         }
+    }
+
+    private static void checkOrder() {
+        UserService userService = (UserService)
+                injector.getInstance(UserService.class);
+        ShoppingCartService shoppingCartService = (ShoppingCartService)
+                injector.getInstance(ShoppingCartService.class);
+        OrderService orderService = (OrderService)
+                injector.getInstance(OrderService.class);
+        orderService.completeOrder(shoppingCartService
+                .getByUser(userService.findByEmail("email2@com").get()).getTickets(),
+                userService.findByEmail("email2@com").get());
+        List<Order> orderHistory = orderService
+                .getOrderHistory(userService.findByEmail("email2@com").get());
+        System.out.println(orderHistory);
+
     }
 }

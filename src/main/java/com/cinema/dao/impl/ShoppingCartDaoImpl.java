@@ -38,7 +38,8 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     public ShoppingCart getByUser(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<ShoppingCart> query = session
-                    .createQuery("from ShoppingCart where id = :userId", ShoppingCart.class);
+                    .createQuery("from ShoppingCart s left join fetch s.tickets "
+                            + "where s.id = :userId ", ShoppingCart.class);
             query.setParameter("userId", user.getId());
             return query.uniqueResult();
         } catch (Exception e) {
