@@ -17,7 +17,7 @@ public class MovieSession {
     private Movie movie;
     @ManyToOne
     private CinemaHall cinemaHall;
-    @Column(name = "show_ime")
+    @Column(name = "show_time")
     private LocalDateTime showTime;
 
     public MovieSession() {
