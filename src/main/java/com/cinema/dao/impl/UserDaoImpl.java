@@ -3,12 +3,12 @@ package com.cinema.dao.impl;
 import com.cinema.dao.UserDao;
 import com.cinema.exeption.DataProcessingException;
 import com.cinema.model.User;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
 
 @Repository
 public class UserDaoImpl implements UserDao {

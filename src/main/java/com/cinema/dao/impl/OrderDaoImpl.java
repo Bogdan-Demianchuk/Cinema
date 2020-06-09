@@ -4,12 +4,12 @@ import com.cinema.dao.OrderDao;
 import com.cinema.exeption.DataProcessingException;
 import com.cinema.model.Order;
 import com.cinema.model.User;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {

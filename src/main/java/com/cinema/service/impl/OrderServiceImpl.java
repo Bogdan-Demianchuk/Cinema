@@ -5,9 +5,9 @@ import com.cinema.model.Order;
 import com.cinema.model.Ticket;
 import com.cinema.model.User;
 import com.cinema.service.OrderService;
-import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class OrderServiceImpl implements OrderService {

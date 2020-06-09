@@ -20,7 +20,6 @@ public class MovieDaoImpl implements MovieDao {
         this.sessionFactory = sessionFactory;
     }
 
-
     @Override
     public Movie add(Movie movie) {
         Transaction transaction = null;

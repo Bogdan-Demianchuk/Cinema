@@ -14,14 +14,14 @@ import com.cinema.service.OrderService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import config.AppConfig;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
     static AnnotationConfigApplicationContext context =

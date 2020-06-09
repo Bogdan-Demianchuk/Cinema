@@ -1,7 +1,5 @@
 package config;
 
-import java.util.Properties;
-import javax.sql.DataSource;
 import com.cinema.model.CinemaHall;
 import com.cinema.model.Movie;
 import com.cinema.model.MovieSession;
@@ -9,6 +7,8 @@ import com.cinema.model.Order;
 import com.cinema.model.ShoppingCart;
 import com.cinema.model.Ticket;
 import com.cinema.model.User;
+import java.util.Properties;
+import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -51,8 +51,9 @@ public class AppConfig {
         properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
         factoryBean.setHibernateProperties(properties);
-        factoryBean.setAnnotatedClasses(CinemaHall.class, Movie.class, MovieSession.class, Order.class,
-                 ShoppingCart.class, Ticket.class, User.class);
+        factoryBean.setAnnotatedClasses(CinemaHall.class, Movie.class,
+                MovieSession.class, Order.class,
+                ShoppingCart.class, Ticket.class, User.class);
         return factoryBean;
     }
 }
