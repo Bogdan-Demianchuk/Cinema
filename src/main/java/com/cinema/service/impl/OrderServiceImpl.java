@@ -1,19 +1,21 @@
 package com.cinema.service.impl;
 
 import com.cinema.dao.OrderDao;
-import com.cinema.lib.Inject;
-import com.cinema.lib.Service;
 import com.cinema.model.Order;
 import com.cinema.model.Ticket;
 import com.cinema.model.User;
 import com.cinema.service.OrderService;
+import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    @Inject
-    private OrderDao orderDao;
+    private final OrderDao orderDao;
+
+    public OrderServiceImpl(OrderDao orderDao) {
+        this.orderDao = orderDao;
+    }
 
     @Override
     public Order completeOrder(List<Ticket> tickets, User user) {
