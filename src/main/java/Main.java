@@ -1,6 +1,5 @@
 import com.cinema.exeption.AuthenticationException;
 import com.cinema.exeption.DataProcessingException;
-import com.cinema.lib.Injector;
 import com.cinema.model.CinemaHall;
 import com.cinema.model.Movie;
 import com.cinema.model.MovieSession;
@@ -14,16 +13,19 @@ import com.cinema.service.MovieSessionService;
 import com.cinema.service.OrderService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
-import com.cinema.util.HibernateUtil;
+import config.AppConfig;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
-    private static Injector injector = Injector.getInstance("com.cinema");
+    static AnnotationConfigApplicationContext context =
+            new AnnotationConfigApplicationContext(AppConfig.class);
 
     public static void main(String[] args) throws AuthenticationException {
         checkMovie();
@@ -36,8 +38,7 @@ public class Main {
     }
 
     private static void checkUser() throws AuthenticationException {
-        AuthenticationService authenticationService = (AuthenticationService)
-                injector.getInstance(AuthenticationService.class);
+        AuthenticationService authenticationService = context.getBean(AuthenticationService.class);
         for (int i = 0; i < 10; i++) {
             User user = new User("email" + i + "@com", "*" + i);
             authenticationService.register(user.getEmail(), user.getPassword());
@@ -49,14 +50,13 @@ public class Main {
         Movie movie = new Movie();
         movie.setTitle("Eralash");
         movie.setDescription("Season 1");
-        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
+        MovieService movieService = context.getBean(MovieService.class);
         movieService.add(movie);
         System.out.println(movieService.getAll());
     }
 
     private static void checkCinemaHall() {
-        CinemaHallService cinemaHallService = (CinemaHallService)
-                injector.getInstance(CinemaHallService.class);
+        CinemaHallService cinemaHallService = context.getBean(CinemaHallService.class);
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setCapacity(31);
         cinemaHallService.add(cinemaHall);
@@ -65,48 +65,40 @@ public class Main {
 
     private static void checkMovieSession() {
         MovieSession movieSession = new MovieSession();
-        CinemaHallService cinemaHallService = (CinemaHallService)
-                injector.getInstance(CinemaHallService.class);
+        CinemaHallService cinemaHallService = context.getBean(CinemaHallService.class);
         movieSession.setCinemaHall(cinemaHallService.getAll().get(0));
-        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
+        MovieService movieService = context.getBean(MovieService.class);
         Movie movie = movieService.getAll().get(0);
         movieSession.setMovie(movie);
         movieSession.setShowTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(14, 30)));
-        MovieSessionService movieSessionService = (MovieSessionService)
-                injector.getInstance(MovieSessionService.class);
+        MovieSessionService movieSessionService = context.getBean(MovieSessionService.class);
         movieSessionService.add(movieSession);
         System.out.println(movieSessionService.findAvailableSessions(movie.getId(),
                 LocalDate.now()));
     }
 
     private static void checkShoppingCartService() {
-        ShoppingCartService shoppingCartService = (ShoppingCartService)
-                injector.getInstance(ShoppingCartService.class);
-        UserService userService = (UserService)
-                injector.getInstance(UserService.class);
+        ShoppingCartService shoppingCartService = context.getBean(ShoppingCartService.class);
+        UserService userService = context.getBean(UserService.class);
         System.out.println(shoppingCartService
                 .getByUser(userService.findByEmail("email2@com").get()));
     }
 
     private static void checkTicket() {
         MovieSession movieSession = new MovieSession();
-        CinemaHallService cinemaHallService = (CinemaHallService)
-                injector.getInstance(CinemaHallService.class);
+        CinemaHallService cinemaHallService = context.getBean(CinemaHallService.class);
         movieSession.setCinemaHall(cinemaHallService.getAll().get(0));
-        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
+        MovieService movieService = context.getBean(MovieService.class);
         Movie movie = movieService.getAll().get(0);
         movieSession.setMovie(movie);
         movieSession.setShowTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(14, 30)));
-        MovieSessionService movieSessionService = (MovieSessionService)
-                injector.getInstance(MovieSessionService.class);
+        MovieSessionService movieSessionService = context.getBean(MovieSessionService.class);
         movieSessionService.add(movieSession);
-        ShoppingCartService shoppingCartService = (ShoppingCartService)
-                injector.getInstance(ShoppingCartService.class);
-        UserService userService = (UserService)
-                injector.getInstance(UserService.class);
+        ShoppingCartService shoppingCartService = context.getBean(ShoppingCartService.class);
+        UserService userService = context.getBean(UserService.class);
         shoppingCartService.addSession(movieSession,
                 userService.findByEmail("email2@com").get());
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = context.getBean(SessionFactory.class).openSession()) {
             Query<Ticket> query = session
                     .createQuery("from Ticket", Ticket.class);
             System.out.println(query.list());
@@ -117,18 +109,14 @@ public class Main {
     }
 
     private static void checkOrder() {
-        UserService userService = (UserService)
-                injector.getInstance(UserService.class);
-        ShoppingCartService shoppingCartService = (ShoppingCartService)
-                injector.getInstance(ShoppingCartService.class);
-        OrderService orderService = (OrderService)
-                injector.getInstance(OrderService.class);
+        UserService userService = context.getBean(UserService.class);
+        ShoppingCartService shoppingCartService = context.getBean(ShoppingCartService.class);
+        OrderService orderService = context.getBean(OrderService.class);
         orderService.completeOrder(shoppingCartService
-                .getByUser(userService.findByEmail("email2@com").get()).getTickets(),
+                        .getByUser(userService.findByEmail("email2@com").get()).getTickets(),
                 userService.findByEmail("email2@com").get());
         List<Order> orderHistory = orderService
                 .getOrderHistory(userService.findByEmail("email2@com").get());
         System.out.println(orderHistory);
-
     }
 }
