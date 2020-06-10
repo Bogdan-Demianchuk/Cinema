@@ -4,7 +4,6 @@ import com.cinema.dao.MovieDao;
 import com.cinema.exeption.DataProcessingException;
 import com.cinema.model.Movie;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MovieDaoImpl implements MovieDao {
-    private static final Logger LOGGER = Logger.getLogger(MovieDaoImpl.class);
     private final SessionFactory sessionFactory;
 
     public MovieDaoImpl(SessionFactory sessionFactory) {
@@ -34,7 +32,6 @@ public class MovieDaoImpl implements MovieDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            LOGGER.error("Can`t insert Movie with title '" + movie.getTitle() + "' to db");
             throw new DataProcessingException("Can`t insert Movie to db", e);
         } finally {
             if (session != null) {
@@ -46,11 +43,22 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public List<Movie> getAll() {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("from Movie");
-            List<Movie> allMovies = query.list();
-            return allMovies;
+            Query<Movie> query = session.createQuery("from Movie", Movie.class);
+            return query.list();
         } catch (Exception e) {
             throw new DataProcessingException("Can`t get All movie ", e);
+        }
+    }
+
+    @Override
+    public Movie getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Movie> query = session.createQuery
+                    ("from Movie where id = :id", Movie.class);
+            query.setParameter("id", id);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can`t get movie by id from db", e);
         }
     }
 }
