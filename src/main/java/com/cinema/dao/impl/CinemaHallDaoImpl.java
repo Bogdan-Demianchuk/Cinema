@@ -3,7 +3,6 @@ package com.cinema.dao.impl;
 import com.cinema.dao.CinemaHallDao;
 import com.cinema.exeption.DataProcessingException;
 import com.cinema.model.CinemaHall;
-import com.cinema.model.Movie;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

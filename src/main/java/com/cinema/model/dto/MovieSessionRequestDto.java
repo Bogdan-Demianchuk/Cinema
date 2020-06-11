@@ -27,7 +27,7 @@ public class MovieSessionRequestDto {
         return showTime;
     }
 
-    public void setShowTime(LocalDateTime LocalDateTime) {
-        this.showTime = LocalDateTime;
+    public void setShowTime(LocalDateTime showTime) {
+        this.showTime = showTime;
     }
 }

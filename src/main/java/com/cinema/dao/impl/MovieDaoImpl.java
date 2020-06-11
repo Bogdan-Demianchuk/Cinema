@@ -53,8 +53,8 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public Movie getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Movie> query = session.createQuery
-                    ("from Movie where id = :id", Movie.class);
+            Query<Movie> query = session.createQuery("from Movie "
+                    + "where id = :id", Movie.class);
             query.setParameter("id", id);
             return query.uniqueResult();
         } catch (Exception e) {
@@ -62,4 +62,3 @@ public class MovieDaoImpl implements MovieDao {
         }
     }
 }
-
