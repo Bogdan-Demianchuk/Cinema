@@ -23,6 +23,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(getEncoder());
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .inMemoryAuthentication()
+                .passwordEncoder(getEncoder())
+                .withUser("1")
+                .password(getEncoder().encode("1"))
+                .roles("USER");
     }
 
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/orders/**").authenticated()
                 .antMatchers("/shoppingcarts/**").authenticated()
 
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
                 .permitAll()
