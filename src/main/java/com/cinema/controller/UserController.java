@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users/byemail")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
@@ -19,7 +19,7 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    @GetMapping
+    @GetMapping("/byemail")
     public UserResponceDto getUserByEmail(@RequestParam String email) {
         return userMapper.parsingUserToDto(userService.findByEmail(email).get());
     }

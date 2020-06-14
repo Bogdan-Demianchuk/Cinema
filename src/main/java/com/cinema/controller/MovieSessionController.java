@@ -8,6 +8,7 @@ import com.cinema.util.mapper.MovieSessionMapper;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +37,7 @@ public class MovieSessionController {
 
     @GetMapping("/available")
     public List<MovieSessionResponceDto> getAvailableMovieSession(
-            @RequestParam Long movieId, @RequestParam LocalDate showTime) {
+            @RequestParam Long movieId, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate showTime) {
         List<MovieSession> availableSessions = movieSessionService
                 .findAvailableSessions(movieId, showTime);
         return availableSessions.stream()
