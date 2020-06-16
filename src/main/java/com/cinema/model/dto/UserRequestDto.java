@@ -11,7 +11,7 @@ public class UserRequestDto {
     @NotNull(message = "email can't be null")
     private String email;
     @NotNull(message = "password can't be null")
-    @Size(min = 3, message = "password length should be 3 or more symbols")
+    @Size(min = 6, message = "password length should be 6 or more symbols")
     private String password;
     private String repeatPassword;
 
