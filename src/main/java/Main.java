@@ -4,6 +4,7 @@ import com.cinema.model.CinemaHall;
 import com.cinema.model.Movie;
 import com.cinema.model.MovieSession;
 import com.cinema.model.Order;
+import com.cinema.model.Role;
 import com.cinema.model.Ticket;
 import com.cinema.model.User;
 import com.cinema.service.AuthenticationService;
@@ -11,6 +12,7 @@ import com.cinema.service.CinemaHallService;
 import com.cinema.service.MovieService;
 import com.cinema.service.MovieSessionService;
 import com.cinema.service.OrderService;
+import com.cinema.service.RoleService;
 import com.cinema.service.ShoppingCartService;
 import com.cinema.service.UserService;
 import config.AppConfig;
@@ -18,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -28,6 +31,7 @@ public class Main {
             new AnnotationConfigApplicationContext(AppConfig.class);
 
     public static void main(String[] args) throws AuthenticationException {
+        addRolesToDb();
         checkMovie();
         checkUser();
         checkCinemaHall();
@@ -37,13 +41,23 @@ public class Main {
         checkOrder();
     }
 
+    private static void addRolesToDb() {
+        RoleService roleService = context.getBean(RoleService.class);
+        Role role = new Role(Role.RoleName.USER);
+        roleService.add(role);
+        Role role2 = new Role(Role.RoleName.ADMIN);
+        roleService.add(role2);
+    }
+
     private static void checkUser() throws AuthenticationException {
         AuthenticationService authenticationService = context.getBean(AuthenticationService.class);
+        RoleService roleService = context.getBean(RoleService.class);
         for (int i = 0; i < 10; i++) {
-            User user = new User("email" + i + "@com", "*" + i);
-            authenticationService.register(user.getEmail(), user.getPassword());
+            User user = new User("email" + i + "@com", "111111" + i);
+            authenticationService.register(user.getEmail(), user.getPassword(),
+                    Set.of(roleService.getRoleByName("USER")));
         }
-        System.out.println("Get 3rd user -" + authenticationService.login("email2@com", "*2"));
+        System.out.println("Get 3rd user -" + authenticationService.login("email2@com", "1111112"));
     }
 
     private static void checkMovie() {
