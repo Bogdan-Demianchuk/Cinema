@@ -25,9 +25,8 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public void register(@RequestBody @Valid UserRequestDto userRequestDto) {
-        Role role = roleService.getRoleByName("ADMIN");
+        Role role = roleService.getRoleByName("USER");
         authenticationService.register(userRequestDto.getEmail(),
                 userRequestDto.getPassword(), Set.of(role));
-        ;
     }
 }

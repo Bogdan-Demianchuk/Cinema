@@ -2,6 +2,7 @@ package com.cinema.security;
 
 import com.cinema.model.User;
 import com.cinema.service.UserService;
+import java.util.Optional;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,10 +19,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        if (userService.findByEmail(email).isEmpty()) {
+        Optional<User> userByEmailOptional = userService.findByEmail(email);
+        if (userByEmailOptional.isEmpty()) {
             throw new UsernameNotFoundException("Can't get user from db by this email");
         }
-        User user = userService.findByEmail(email).get();
+        User user = userByEmailOptional.get();
         UserBuilder userBuilder = org.springframework.security.core.userdetails
                 .User.withUsername(email);
         userBuilder.password(user.getPassword());
