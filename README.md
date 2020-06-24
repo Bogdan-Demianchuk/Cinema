@@ -1,4 +1,7 @@
 # Сinema ticket management
+This project deployed on Heroku cloud platform
+so can use this address for testing API
+### [https://cinema-bd.herokuapp.com/](https://cinema-bd.herokuapp.com/) <br>
 [Project purpose](#purpose)<br>
 [Project structure](#structure)<br>
 [Available functions](#avaiable_functions)<br>
