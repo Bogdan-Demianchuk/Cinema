@@ -27,6 +27,7 @@ public class AuthenticationController {
     @GetMapping
     public String index() {
         return "Hello cinema management system";
+
     }
 
     @PostMapping("/register")
