@@ -19,9 +19,6 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public void add(Role role) {
-        if (getRoleByName(role.getRoleName()) != null) {
-            return;
-        }
         Transaction transaction = null;
         Session session = null;
         try {
@@ -43,11 +40,11 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Role getRoleByName(Role.RoleName roleName) {
+    public Role getRoleByName(String roleName) {
         try (Session session = sessionFactory.openSession()) {
             Query<Role> query = session
                     .createQuery("from Role where roleName = :roleName", Role.class);
-            query.setParameter("roleName", roleName);
+            query.setParameter("roleName", Role.RoleName.valueOf(roleName));
             return query.uniqueResult();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get "
