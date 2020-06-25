@@ -6,6 +6,7 @@ import com.cinema.service.AuthenticationService;
 import com.cinema.service.RoleService;
 import java.util.Set;
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,12 @@ public class AuthenticationController {
                                     RoleService roleService) {
         this.authenticationService = authenticationService;
         this.roleService = roleService;
+    }
+
+    @GetMapping
+    public String index() {
+        return "Hello cinema management system";
+
     }
 
     @PostMapping("/register")

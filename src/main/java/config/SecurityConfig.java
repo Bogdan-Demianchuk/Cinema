@@ -28,19 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/").permitAll()
-                .antMatchers("/orders/**").authenticated()
-                .antMatchers("/shoppingcarts/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/cinemahalls",
-                        "/movies", "/moviesessions/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/cinemahalls/**",
-                        "/movies/**", "/moviesessions/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
-                .antMatchers("/orders/**").authenticated()
-                .antMatchers("/shoppingcarts/**").authenticated()
-
+                .antMatchers("/register", "/inject-data").permitAll()
+                .antMatchers(HttpMethod.GET, "/cinemahalls", "/movies",
+                        "/moviesessions/available").authenticated()
+                .antMatchers(HttpMethod.POST, "/cinemahalls", "/movies",
+                        "/moviesessions").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/users/byemail").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "orders", "/orders/complete", "/shoppingcarts/by-user",
+                        "/shoppingcarts/addmoviesession").hasRole("USER")
                 .and()
                 .formLogin()
                 .permitAll()

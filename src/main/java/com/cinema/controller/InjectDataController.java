@@ -49,38 +49,31 @@ public class InjectDataController {
 
     @GetMapping
     public void injectionData() {
-        //add roles to db
         Role role = new Role(Role.RoleName.USER);
         roleService.add(role);
         Role role2 = new Role(Role.RoleName.ADMIN);
         roleService.add(role2);
-        //add users to db
         User user = new User("user@com", "111111");
         User admin = new User("admin@com", "111111");
         user = authenticationService.register(user.getEmail(), user.getPassword(),
                 Set.of(roleService.getRoleByName("USER")));
         admin = authenticationService.register(admin.getEmail(), admin.getPassword(),
                 Set.of(roleService.getRoleByName("ADMIN")));
-        //add users to db
         Movie movie = new Movie();
         movie.setTitle("Eralash");
         movie.setDescription("Season 1");
         movieService.add(movie);
-        //add cinema hall to db
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setCapacity(31);
         cinemaHall.setDescription("Best cinema hall");
         cinemaHallService.add(cinemaHall);
-        //add movie session to db
         MovieSession movieSession = new MovieSession();
         movieSession.setCinemaHall(cinemaHall);
         movieSession.setMovie(movie);
         movieSession.setShowTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(14, 30)));
         movieSessionService.add(movieSession);
-        //add ticket to db
         shoppingCartService.addSession(movieSession, user);
         shoppingCartService.addSession(movieSession, admin);
-        //add order to db
         orderService.completeOrder(shoppingCartService.getByUser(user).getTickets(), user);
     }
 }
