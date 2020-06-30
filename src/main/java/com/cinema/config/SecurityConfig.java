@@ -1,4 +1,4 @@
-package config;
+package com.cinema.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,12 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/register", "/inject-data").permitAll()
                 .antMatchers(HttpMethod.GET, "/cinemahalls", "/movies",
-                        "/moviesessions/available").authenticated()
-                .antMatchers(HttpMethod.POST, "/cinemahalls", "/movies",
-                        "/moviesessions").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/users/byemail").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "orders", "/orders/complete", "/shoppingcarts/by-user",
-                        "/shoppingcarts/addmoviesession").hasRole("USER")
+                        "/movie-sessions/available").authenticated()
+                .antMatchers(HttpMethod.POST, "/cinema-halls", "/movies",
+                        "/movie-sessions").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/users/by-email").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "orders", "/orders/complete",
+                        "/shopping-carts/by-user",
+                        "/shopping-carts/add-movie-session").hasRole("USER")
                 .and()
                 .formLogin()
                 .permitAll()

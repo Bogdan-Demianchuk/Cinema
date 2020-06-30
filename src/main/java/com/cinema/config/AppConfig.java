@@ -1,4 +1,4 @@
-package config;
+package com.cinema.config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
@@ -17,7 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ComponentScan(basePackages = {
         "com.cinema.service",
         "com.cinema.dao",
-        "com.cinema.security"
+        "com.cinema.security",
+        "com.cinema.util.mapper"
 })
 public class AppConfig {
     private final Environment env;

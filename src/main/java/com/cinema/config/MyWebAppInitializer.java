@@ -1,4 +1,4 @@
-package config;
+package com.cinema.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
