@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/shoppingcarts")
+@RequestMapping("/shopping-carts")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
     private final MovieSessionService movieSessionService;
@@ -30,7 +30,7 @@ public class ShoppingCartController {
         this.shoppingCartMapper = shoppingCartMapper;
     }
 
-    @PostMapping("/addmoviesession")
+    @PostMapping("/add-movie-session")
     public void addMovieSessionToCart(@RequestBody Long movieSessionId,
                                       Authentication authentication) {
         shoppingCartService.addSession(movieSessionService.findSessionsById(movieSessionId),

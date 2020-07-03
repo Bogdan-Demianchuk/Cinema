@@ -21,41 +21,41 @@ For **without being authenticated** users
 * Register (POST : "/register")
 
 For users with a **USER role only**<br>
-* View shopping cards (GET : "/shoppingcarts/by-user")
-* Adding movie session to shopping cards (GET : "/shoppingcarts/addmoviesession")
+* View shopping cards (GET : "/shopping-carts/by-user")
+* Adding movie session to shopping cards (GET : "/shopping-carts/add-movie-session")
 * Make an order (GET : "/orders/complete")
 * View orders (GET : "/orders")
-* View all cinema halls (GET : "/cinemahalls")
+* View all cinema halls (GET : "/cinema-halls")
 * View all movies (GET : "/movies")
-* View all available movie sessions (GET : "/moviesessions/available")
+* View all available movie sessions (GET : "/movie-sessions/available")
 
 For users with a **ADMIN role only**<br>
 For all users plus
 
-* Add cinema hall (POST : "/cinemahalls")
-* View all cinema halls (GET : "/cinemahalls")
+* Add cinema hall (POST : "/cinema-halls")
+* View all cinema halls (GET : "/cinema-halls")
 * Add movie (POST : "/movies")
 * View all movies (GET : "/movies")
-* Add movie session (POST : "/moviesessions")
-* View all available movie sessions (GET : "/moviesessions/available")
-* View user info by email (GET : "/users/byemail")
+* Add movie session (POST : "/movie-sessions")
+* View all available movie sessions (GET : "/moviese-ssions/available")
+* View user info by email (GET : "/users/by-email")
 
 For POST method you must use JSON format in request body 
 >Register
 ```sh
-  {"email" : "***", "password" : "***", "repeatPassword" : "***"}
+  {"email" : "string", "password" : "string", "repeatPassword" : "string"}
  ```
 > Add cinema hall<br>
 ```sh
-{"capacity":***,"description":"***"}
+{"capacity":0,"description":"string"}
 ```
 > Add movie
 ```sh
- {"title":"***","description":"***"}
+ {"title":"string","description":"string"}
  ```
 > Add movie session
 ```sh
-  {"movieId":***,"cinemaHallId":***,"showTime":"****-**-**T**:**"}
+  {"movieId":0,"cinemaHallId":0,"showTime":"string formmat(****-**-**T**:**)"}
 example {"movieId":1,"cinemaHallId":2,"showTime":"2020-09-05T16:00"}
 ```
 # <a name="technology"></a>Technology
@@ -67,7 +67,7 @@ example {"movieId":1,"cinemaHallId":2,"showTime":"2020-09-05T16:00"}
 * hibernate cor, java8 5.4.16
 * mysql-connector-java 8.0.20
 * Log4j 2.13.0
-* spring-context, spring-orm, spring-webmvc, spring-security-core, spring-security-config, spring-security-web 5.2.5.RELEASE
+* spring-context, spring-orm, spring-webmvc, spring-security-core, spring-security-com.cinema.config, spring-security-web 5.2.5.RELEASE
 * javax.servlet-api 3.1.0
 * Tomcat 9.0.34
 
